@@ -1,0 +1,16 @@
+/* 
+** The Header Media Queries **
+** Tweak as per your needs **
+*/
+.my-site {
+    font-weight: bold;
+    font-size: 20px; }
+
+.site-header {
+position: relative;
+background-color: var(--header-footer-color); }
+
+.site-header__wrapper {
+padding-top: 1rem;
+padding-bottom: 1rem; }
+
