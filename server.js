@@ -29,6 +29,7 @@ server.on('connection', (socket) => {
     
     rl.on('line', (line) => {
       lines.push(line);
+      console.log(lines);
     });
     
     rl.on('close', () => {
@@ -36,7 +37,6 @@ server.on('connection', (socket) => {
 
     //クライアントにエコーバック
     socket.send(JSON.stringify(lines));
-    console.log(lines);
     console.log(JSON.stringify(lines));
   });
 
