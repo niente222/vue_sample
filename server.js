@@ -35,9 +35,8 @@ server.on('connection', (socket) => {
     });
 
     //クライアントにエコーバック
-    lines = [1,2,3,4,5];
-    socket.send(JSON.stringify(lines));
-    console.log(JSON.stringify(lines));
+    socket.send(JSON.stringify([1,2,3,4,5]));
+    console.log(JSON.stringify([1,2,3,4,5]));
   });
 
   socket.on('close', () => {
