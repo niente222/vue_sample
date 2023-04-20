@@ -25,17 +25,18 @@ server.on('connection', (socket) => {
       crlfDelay: Infinity,
     });
     
-    const lines = [];
+    var lines = [];
     
     rl.on('line', (line) => {
       lines.push(line);
+      console.log('line:'+line);
+      console.log('lines:'+lines);
     });
     
     rl.on('close', () => {
     });
 
     //クライアントにエコーバック
-    console.log(lines);
     console.log(JSON.stringify(lines));
     socket.send(JSON.stringify([1,2,3,4,5]));
   });
