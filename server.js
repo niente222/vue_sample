@@ -32,12 +32,10 @@ server.on('connection', (socket) => {
     });
     
     rl.on('close', () => {
-      console.log('File has been read, and lines are stored in the array:');
-      console.log(lines);
     });
 
     //クライアントにエコーバック
-    socket.send(`Received message: ${lines}`);
+    socket.send(JSON.stringify(lines));
   });
 
   socket.on('close', () => {
