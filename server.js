@@ -2,7 +2,6 @@ const WebSocket = require('ws');
 const fs = require('fs');
 const port = process.env.PORT || 3000; // 環境変数にPORTが設定されている場合は、その値を使う
 const server = new WebSocket.Server({ port: port });
-const fs = require('fs');
 const readline = require('readline');
 
 server.on('connection', (socket) => {
