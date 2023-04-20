@@ -32,10 +32,11 @@ server.on('connection', (socket) => {
     });
     
     rl.on('close', () => {
+      //クライアントにエコーバック
+      console.log(JSON.stringify(lines));
+      socket.send(JSON.stringify(lines));
     });
 
-    //クライアントにエコーバック
-    socket.send(JSON.stringify(lines));
   });
 
   socket.on('close', () => {
