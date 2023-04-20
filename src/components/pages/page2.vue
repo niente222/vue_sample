@@ -2,6 +2,16 @@
     <h1>ラストワンゲーム</h1>
     <button id="unlockButton" @click="handleClick">数字を解除する</button>
     <div id="result"></div>
+
+    <div id="app">
+    <table class="bingo-board">
+      <tbody>
+        <tr v-for="(row, rowIndex) in bingoNumbers" :key="rowIndex">
+          <td class="bingo-cell" v-for="(number, colIndex) in row" :key="colIndex">{{ number }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -12,6 +22,11 @@
 
   export default {
     name: 'page2',
+    data(){
+      return{
+        bingoNumbers: []
+      }
+    },
 
     //ページ表示時に処理される
     mounted() {
@@ -20,16 +35,19 @@
       resultDiv = document.getElementById('result');
       
       socket.addEventListener('open', () => {
-          socket.send('1113');
-        });
+      });
     
-      socket.addEventListener('message', () => {
-        alert("socketが帰ってきた")
+      socket.addEventListener('message', (message) => {
+        alert(message);
       });
   
       socket.addEventListener('close', (event) => {
           console.log('WebSocket connection closed:', event);
       });
+    },
+
+    created() {
+      this.generateBingoNumbers();
     },
 
     //unlockButton クリック時処理
@@ -39,6 +57,8 @@
         const randomIndex = Math.floor(Math.random() * lockedNumbers.length);
         const selectedNumber = lockedNumbers[randomIndex];
 
+        socket.send(selectedNumber);
+
         if (lockedNumbers.length === 1) {
             resultDiv.textContent = 'おめでとうございます！あなたが最後の数字 ' + selectedNumber + ' を解除しました！';
             unlockButton.disabled = true;
@@ -47,6 +67,16 @@
             resultDiv.textContent = '数字 ' + selectedNumber + ' を解除しました！';
         }
       },
+      generateBingoNumbers() {
+        var num = 1;
+        for (let row = 0; row < 400; row++) {
+          this.bingoNumbers[row] = [];
+          for (let col = 0; col < 25; col++) {
+            this.bingoNumbers[row][col] = num;
+            num++;
+          }
+        }
+      }
     },
   }
 </script>

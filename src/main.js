@@ -4,6 +4,7 @@ import router from './router'
 import './assets/css/style.css'
 import './assets/css/header.css'
 import './assets/css/footer.css'
+import './assets/css/bingo.css'
 
 const app = createApp(App)
 app.use(router)
