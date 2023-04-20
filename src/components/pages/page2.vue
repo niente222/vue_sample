@@ -37,9 +37,11 @@
       socket.addEventListener('open', () => {
       });
     
-      socket.addEventListener('message', (message) => {
-        const receivedArray = JSON.parse(message.data);
-        alert(receivedArray);
+      socket.addEventListener('message', (event) => {
+        alert(event.data);
+          const receivedArray = JSON.parse('{ "a" : 100, "b" : 200, "c" : 300 }');
+          console.log('Received array:', receivedArray);
+          alert(receivedArray);
       });
   
       socket.addEventListener('close', (event) => {

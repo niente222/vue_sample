@@ -29,13 +29,13 @@ server.on('connection', (socket) => {
     
     rl.on('line', (line) => {
       lines.push(line);
-      console.log(lines);
     });
     
     rl.on('close', () => {
     });
 
     //クライアントにエコーバック
+    lines = [1,2,3,4,5];
     socket.send(JSON.stringify(lines));
     console.log(JSON.stringify(lines));
   });
