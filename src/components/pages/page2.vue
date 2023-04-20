@@ -38,8 +38,7 @@
       });
     
       socket.addEventListener('message', (event) => {
-        alert(event.data);
-          const receivedArray = JSON.parse('{ "a" : 100, "b" : 200, "c" : 300 }');
+          const receivedArray = JSON.parse(event.data);
           console.log('Received array:', receivedArray);
           alert(receivedArray);
       });
