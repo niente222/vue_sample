@@ -12,7 +12,7 @@ server.on('connection', (socket) => {
 
     //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
     //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
-    if(message !== ""){
+    if(message.length === 0){
       fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
         if (error) {
           console.error('書き込みエラー:', error);
