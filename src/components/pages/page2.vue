@@ -35,6 +35,7 @@
       resultDiv = document.getElementById('result');
       
       socket.addEventListener('open', () => {
+        socket.send("");
       });
     
       socket.addEventListener('message', (event) => {
@@ -48,6 +49,8 @@
       socket.addEventListener('close', (event) => {
           console.log('WebSocket connection closed:', event);
       });
+
+  
     },
 
     created() {
