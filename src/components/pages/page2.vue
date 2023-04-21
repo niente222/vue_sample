@@ -7,7 +7,7 @@
     <table class="bingo-board">
       <tbody>
         <tr v-for="(row, rowIndex) in bingoNumbers" :key="rowIndex">
-          <td class="bingo-cell" v-for="(number, colIndex) in row" :key="colIndex">{{ number }}</td>
+          <td class="bingo-cell" v-for="(number, colIndex) in row" :key="colIndex" :id="'bingo-cell-' + number">{{ number }}</td>
         </tr>
       </tbody>
     </table>
@@ -40,7 +40,9 @@
       socket.addEventListener('message', (event) => {
           const receivedArray = JSON.parse(event.data);
           console.log('Received array:', receivedArray);
-          alert(receivedArray);
+          receivedArray.forEach(num => {
+            this.markNumber(num);
+          })
       });
   
       socket.addEventListener('close', (event) => {
@@ -77,6 +79,16 @@
             this.bingoNumbers[row][col] = num;
             num++;
           }
+        }
+      },
+      markNumber(number) {
+        const cellId = `bingo-cell-${number}`;
+        const cell = document.getElementById(cellId);
+
+        if (cell) {
+          cell.style.backgroundColor = 'yellow';
+        } else {
+          //予期せぬ値
         }
       }
     },

@@ -10,13 +10,17 @@ server.on('connection', (socket) => {
   socket.on('message', (message) => {
     console.log(`Received message: ${message}`);
 
-    fs.appendFile('./numbers/1.txt', '\n' + message, 'utf8', (error) => {
-      if (error) {
-        console.error('書き込みエラー:', error);
-      } else {
-        console.log('ファイルに書き込みました');
-      }
-    });
+    //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
+    //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
+    if(message){
+      fs.appendFile('./numbers/1.txt', '\n' + message, 'utf8', (error) => {
+        if (error) {
+          console.error('書き込みエラー:', error);
+        } else {
+          console.log('ファイルに書き込みました');
+        }
+      });
+    }
 
     const fileStream = fs.createReadStream('./numbers/1.txt', { encoding: 'utf-8' });
 
@@ -36,7 +40,6 @@ server.on('connection', (socket) => {
       console.log(JSON.stringify(lines));
       socket.send(JSON.stringify(lines));
     });
-
   });
 
   socket.on('close', () => {
