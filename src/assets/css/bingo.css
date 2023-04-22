@@ -20,3 +20,30 @@ body {
     font-size: 10px;
   }
   
+  .bingo-cell {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bingo-cell .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* 吹き出しの表示位置を調整 */
+    left: 50%;
+    margin-left: -100px; /* 吹き出しの左端を要素の中央に合わせる */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.bingo-cell:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
