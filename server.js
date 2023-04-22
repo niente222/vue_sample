@@ -37,8 +37,8 @@ server.on('connection', (socket) => {
             } else {
               console.log('ファイルに書き込みました');
             }
+            lines.push(message);
           });
-          lines.push(message);
         }
       }
 
