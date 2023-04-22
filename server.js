@@ -39,7 +39,7 @@ server.on('connection', (socket) => {
             } else {
               console.log('ファイルに書き込みました');
               lines.push(message);
-              numbers.push(message.substring(0, message.indexOf('$')));
+              numbers.push(message.toString().substring(0, message.indexOf('$')));
               hasMissingNumber(numbers);
             }
           });
