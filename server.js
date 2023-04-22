@@ -11,7 +11,18 @@ server.on('connection', (socket) => {
     console.log(`Received message: ${message}`);
 
     var textFileNumber = "1";
-    //textFileNumber = getPlayingFileName();
+    console.log('1');
+    (async () => {
+      try {
+        textFileNumber = await getPlayingFileName();
+        console.log('2:' + textFileNumber);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    })();
+    
+    console.log('3:' + textFileNumber);
+    //この処理で戻り値がundefinedになる 非同期処理が考慮できてないのが原因
 
     const fileStream = fs.createReadStream('./numbers/' + textFileNumber + '.txt', { encoding: 'utf-8' });
 
@@ -70,19 +81,22 @@ function getPlayingFileName(){
   const filePath = './numbers/completeLog.txt';
 
   const fileStream = fs.createReadStream(filePath);
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
-
-  let lastLine = '';
-
-  rl.on('line', (line) => {
-    lastLine = line;
-  });
-
-  rl.on('close', () => {
-    return lastLine;
+  
+  return new Promise((resolve, reject) => {
+    const rl = readline.createInterface({
+      input: fileStream,
+      crlfDelay: Infinity,
+    });
+  
+    let lastLine = '';
+  
+    rl.on('line', (line) => {
+      lastLine = line;
+    });
+  
+    rl.on('close', () => {
+      return lastLine;
+    });  
   });
 }
 
