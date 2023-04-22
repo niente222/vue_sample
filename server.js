@@ -28,6 +28,10 @@ server.on('connection', (socket) => {
     //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
     //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
     if(message.length !== 0){
+      //数字がまだに存在しない場合
+      if(numbers.includes(message.substring(0, message.indexOf('$')))){
+        lines.push(message);
+      }
       fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
         if (error) {
           console.error('書き込みエラー:', error);
@@ -35,11 +39,6 @@ server.on('connection', (socket) => {
           console.log('ファイルに書き込みました');
         }
       });
-    }
-
-    //数字がまだに存在しない場合
-    if(numbers.includes(message.substring(0, message.indexOf('$')))){
-      lines.push(message);
     }
     
     rl.on('close', () => {
