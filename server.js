@@ -22,6 +22,7 @@ server.on('connection', (socket) => {
     
     rl.on('line', (line) => {
       lines.push(line);
+      console.Console.log('1:'+line);
       numbers.push(line.substring(0, line.indexOf('$')));
     });
 
@@ -38,6 +39,7 @@ server.on('connection', (socket) => {
           }
         });
         lines.push(message);
+        console.Console.log('2:'+line);
       }
     }
     

@@ -50,7 +50,7 @@
           receivedArray.forEach(str => {
             const firstDollarSignIndex = str.indexOf('$');
             const secondDollarSignIndex= str.indexOf('$', firstDollarSignIndex + 1);
-            const num = str.substring(0, firstDollarSignIndex);
+            const num = str.toString().substring(0, firstDollarSignIndex);
             const playerName = secondDollarSignIndex !== -1 ? str.substring(firstDollarSignIndex, secondDollarSignIndex).replace(/\$/g, '') : str;
             const date = secondDollarSignIndex !== -1 ? str.substring(secondDollarSignIndex).replace(/\$/g, '') : '';
 
