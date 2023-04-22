@@ -82,7 +82,7 @@ function getPlayingFileName(){
   });
 
   rl.on('close', () => {
-    return lastLine;
+    return "2";
   });
 }
 
