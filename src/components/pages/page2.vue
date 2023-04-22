@@ -86,9 +86,16 @@
             resultDiv.textContent = 'おめでとうございます！あなたが最後の数字 ' + selectedNumber + ' を解除しました！';
             unlockButton.disabled = true;
         } else {
-            lockStatus[selectedNumber - 1] = false;
-            resultDiv.textContent = '数字 ' + selectedNumber + ' を解除しました！';
+            const cellId = `bingo-cell-${selectedNumber}`;
+            const cell = document.getElementById(cellId);
+            if(cell.style.backgroundColor == 'yellow'){
+              resultDiv.textContent = '数字 ' + selectedNumber + ' はすでに解除されています';
+            }else{
+              resultDiv.textContent = '数字 ' + selectedNumber + ' を解除しました！';
+            }
         }
+
+        this.markNumber(selectedNumber,this.playerName,this.getDateFormat(new Date()));
       },
       generateBingoNumbers() {
         var num = 1;

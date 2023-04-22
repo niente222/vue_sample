@@ -10,7 +10,9 @@ server.on('connection', (socket) => {
   socket.on('message', (message) => {
     console.log(`Received message: ${message}`);
 
-    const fileStream = fs.createReadStream('./numbers/1.txt', { encoding: 'utf-8' });
+    var textFileNumber = "1";
+
+    const fileStream = fs.createReadStream('./numbers/' + textFileNumber + '.txt', { encoding: 'utf-8' });
 
     const rl = readline.createInterface({
       input: fileStream,
@@ -31,13 +33,14 @@ server.on('connection', (socket) => {
       if(message.length !== 0){
         //数字がまだ存在しない場合
         if(!numbers.includes(message.toString().substring(0, message.indexOf('$')))){
-          fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
+          fs.appendFile('./numbers/' + textFileNumber + '.txt', message + '\n', 'utf8', (error) => {
             if (error) {
               console.error('書き込みエラー:', error);
             } else {
               console.log('ファイルに書き込みました');
+              lines.push(message);
+              console.log("message:" + message);
             }
-            lines.push(message);
           });
         }
       }
@@ -52,3 +55,73 @@ server.on('connection', (socket) => {
     console.log('Client disconnected');
   });
 });
+
+function getPlayingFileName(){
+  const filePath = './numbers/completeLog.txt';
+
+  const fileStream = fs.createReadStream(filePath);
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity,
+  });
+
+  let lastLine = '';
+
+  rl.on('line', (line) => {
+    lastLine = line;
+  });
+
+  rl.on('close', () => {
+    return lastLine;
+  });
+}
+
+function hasMissingNumber(arr) {
+  // 配列をソート
+  const sortedArr = arr.sort((a, b) => a - b);
+
+  for (let i = 0; i < sortedArr.length - 1; i++) {
+    // 隣接する要素が連続していない場合、欠けている数字がある
+    if (sortedArr[i + 1] - sortedArr[i] > 1) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function writeCompleteLog(fileNum,playerName){
+  const fileStream = fs.createReadStream('./numbers/completeLog.txt', { encoding: 'utf-8' });
+
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity,
+  });
+  
+  fs.appendFile('./numbers/completeLog.txt', fileNum + '$' + playerName + '$' + getDateFormat(new Date()) + '\n', 'utf8', (error) => {
+    if (error) {
+      console.error('書き込みエラー:', error);
+    } else {
+      console.log('ファイルに書き込みました');
+    }
+  });
+}
+
+function getDateFormat(date){
+  const y = date.getFullYear();
+  const M = date.getMonth() + 1;
+  const d = date.getDate();
+  const h = date.getHours();
+  const m = date.getMinutes();
+  const s = date.getSeconds();
+
+
+  const yyyy = y.toString();
+  const MM = ("00" + M).slice(-2);
+  const dd = ("00" + d).slice(-2);
+  const hh = ("00" + h).slice(-2);
+  const mm = ("00" + m).slice(-2);
+  const ss = ("00" + s).slice(-2);
+
+  return yyyy + '/' + MM + '/' + dd + ' ' + hh + ':'  + mm + ':'  + ss;
+}
