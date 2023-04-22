@@ -25,6 +25,7 @@ server.on('connection', (socket) => {
       numbers.push(line.substring(0, line.indexOf('$')));
     });
 
+    console.log("lines:" + lines);
     console.log("numbers:" + numbers);
     console.log("message:" + message);
     console.log("message substring:" + message.toString().substring(0, message.indexOf('$')));
