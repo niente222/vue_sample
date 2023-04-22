@@ -24,29 +24,23 @@ server.on('connection', (socket) => {
       lines.push(line);
       numbers.push(line.substring(0, line.indexOf('$')));
     });
-
-    console.log("lines:" + lines);
-    console.log("numbers:" + numbers);
-    console.log("message:" + message);
-    console.log("message substring:" + message.toString().substring(0, message.indexOf('$')));
-
-
-    //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
-    //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
-    if(message.length !== 0){
-      //数字がまだ存在しない場合
-      if(!numbers.includes(message.toString().substring(0, message.indexOf('$')))){
-        fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
-          if (error) {
-            console.error('書き込みエラー:', error);
-          } else {
-            console.log('ファイルに書き込みました');
-          }
-        });
-      }
-    }
     
     rl.on('close', () => {
+      //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
+      //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
+      if(message.length !== 0){
+        //数字がまだ存在しない場合
+        if(!numbers.includes(message.toString().substring(0, message.indexOf('$')))){
+          fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
+            if (error) {
+              console.error('書き込みエラー:', error);
+            } else {
+              console.log('ファイルに書き込みました');
+            }
+          });
+        }
+      }
+
       //クライアントにエコーバック
       console.log(JSON.stringify(lines));
       socket.send(JSON.stringify(lines));
