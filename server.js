@@ -22,9 +22,10 @@ server.on('connection', (socket) => {
     
     rl.on('line', (line) => {
       lines.push(line);
-      console.Console.log('1:'+line);
       numbers.push(line.substring(0, line.indexOf('$')));
     });
+    
+    console.Console.log('1:'+lines);
 
     //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
     //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
@@ -39,7 +40,7 @@ server.on('connection', (socket) => {
           }
         });
         lines.push(message);
-        console.Console.log('2:'+line);
+        console.Console.log('2:'+ lines);
       }
     }
     
