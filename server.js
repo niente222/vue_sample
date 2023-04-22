@@ -30,15 +30,15 @@ server.on('connection', (socket) => {
     if(message.length !== 0){
       //数字がまだに存在しない場合
       if(numbers.includes(message.toString().substring(0, message.indexOf('$')))){
+        fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
+          if (error) {
+            console.error('書き込みエラー:', error);
+          } else {
+            console.log('ファイルに書き込みました');
+          }
+        });
         lines.push(message);
       }
-      fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
-        if (error) {
-          console.error('書き込みエラー:', error);
-        } else {
-          console.log('ファイルに書き込みました');
-        }
-      });
     }
     
     rl.on('close', () => {
