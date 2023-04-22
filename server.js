@@ -38,6 +38,7 @@ server.on('connection', (socket) => {
               console.log('ファイルに書き込みました');
             }
           });
+          lines.push(message);
         }
       }
 
