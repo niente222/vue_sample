@@ -11,6 +11,7 @@ server.on('connection', (socket) => {
     console.log(`Received message: ${message}`);
 
     var textFileNumber = "1";
+    textFileNumber = getPlayingFileName();
 
     const fileStream = fs.createReadStream('./numbers/' + textFileNumber + '.txt', { encoding: 'utf-8' });
 
@@ -40,7 +41,15 @@ server.on('connection', (socket) => {
               console.log('ファイルに書き込みました');
               lines.push(message);
               numbers.push(message.toString().substring(0, message.indexOf('$')));
-              hasMissingNumber(numbers);
+              if(!hasMissingNumber(numbers)){
+                //クリア時処理
+                const firstDollarSignIndex = message.indexOf('$');
+                const secondDollarSignIndex= message.indexOf('$', firstDollarSignIndex + 1);
+                const playerName = secondDollarSignIndex !== -1 ? message.substring(firstDollarSignIndex, secondDollarSignIndex).replace(/\$/g, '') : message;
+            
+                writeCompleteLog(textFileNumber,playerName);
+                console.log("クリア");
+              }
             }
           });
         }
