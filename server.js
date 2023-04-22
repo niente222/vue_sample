@@ -10,6 +10,21 @@ server.on('connection', (socket) => {
   socket.on('message', (message) => {
     console.log(`Received message: ${message}`);
 
+    const fileStream = fs.createReadStream('./numbers/1.txt', { encoding: 'utf-8' });
+
+    const rl = readline.createInterface({
+      input: fileStream,
+      crlfDelay: Infinity,
+    });
+    
+    var lines = [];
+    var numbers = [];
+    
+    rl.on('line', (line) => {
+      lines.push(line);
+      numbers.push(line.substring(0, line.indexOf('$')));
+    });
+
     //webSocketに送られてきたメッセージが空文字でなければファイルに書き込む
     //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
     if(message.length !== 0){
@@ -22,18 +37,10 @@ server.on('connection', (socket) => {
       });
     }
 
-    const fileStream = fs.createReadStream('./numbers/1.txt', { encoding: 'utf-8' });
-
-    const rl = readline.createInterface({
-      input: fileStream,
-      crlfDelay: Infinity,
-    });
-    
-    var lines = [];
-    
-    rl.on('line', (line) => {
-      lines.push(line);
-    });
+    //数字がまだに存在しない場合
+    if(numbers.includes(message.substring(0, message.indexOf('$')))){
+      lines.push(message);
+    }
     
     rl.on('close', () => {
       //クライアントにエコーバック

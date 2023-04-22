@@ -9,7 +9,7 @@
     <table class="bingo-board">
       <tbody>
         <tr v-for="(row, rowIndex) in bingoNumbers" :key="rowIndex">
-          <td class="bingo-cell" v-for="(number, colIndex) in row" :key="colIndex" :id="'bingo-cell-' + number">{{ number }}<div class='tooltip-text' :id="'tooltip-' + number"></div></td>
+          <td class="bingo-cell" v-for="(number, colIndex) in row" :key="colIndex" :id="'bingo-cell-' + number">{{ number }}<div class='tooltip-text' :id="'tooltip-' + number" style="display: none;"></div></td>
         </tr>
       </tbody>
     </table>
@@ -108,6 +108,7 @@
 
         if (cell) {
           cell.style.backgroundColor = 'yellow';
+          tooltip.style.display = "block";
           tooltip.innerHTML = `${number}<br>${playerName}<br>${date}`;
           console.log(playerName + date);
         } else {
