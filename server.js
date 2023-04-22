@@ -39,7 +39,8 @@ server.on('connection', (socket) => {
             } else {
               console.log('ファイルに書き込みました');
               lines.push(message);
-              console.log("message:" + message);
+              numbers.push(message.substring(0, message.indexOf('$')));
+              hasMissingNumber(numbers);
             }
           });
         }
@@ -80,9 +81,13 @@ function hasMissingNumber(arr) {
   // 配列をソート
   const sortedArr = arr.sort((a, b) => a - b);
 
+  if(sortedArr.length < 10){
+    return true;
+  }
+
   for (let i = 0; i < sortedArr.length - 1; i++) {
     // 隣接する要素が連続していない場合、欠けている数字がある
-    if (sortedArr[i + 1] - sortedArr[i] > 1) {
+    if (sortedArr[i] != i + 1) {
       return true;
     }
   }
