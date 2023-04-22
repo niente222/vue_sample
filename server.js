@@ -11,7 +11,7 @@ server.on('connection', (socket) => {
     console.log(`Received message: ${message}`);
 
     var textFileNumber = "1";
-    textFileNumber = getPlayingFileName();
+    //textFileNumber = getPlayingFileName();
 
     const fileStream = fs.createReadStream('./numbers/' + textFileNumber + '.txt', { encoding: 'utf-8' });
 
@@ -82,7 +82,7 @@ function getPlayingFileName(){
   });
 
   rl.on('close', () => {
-    return "2";
+    return lastLine;
   });
 }
 
