@@ -29,7 +29,7 @@ server.on('connection', (socket) => {
     //ファイルの数字を取得するだけの場合(初期表示時など)を考慮
     if(message.length !== 0){
       //数字がまだに存在しない場合
-      if(numbers.includes(message.substring(0, message.indexOf('$')))){
+      if(numbers.includes(message.toString().substring(0, message.indexOf('$')))){
         lines.push(message);
       }
       fs.appendFile('./numbers/1.txt', message + '\n', 'utf8', (error) => {
